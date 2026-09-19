@@ -51,7 +51,8 @@ export function ResumeUpload() {
       if (currentStep >= steps.length) {
         clearInterval(interval);
         setTimeout(() => {
-          navigate('/dashboard');
+          const userId = localStorage.getItem('userId') || '1';
+          navigate(`/employees/${userId}`);
         }, 1000);
       } else {
         setAnalysisStep(currentStep);

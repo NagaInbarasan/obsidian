@@ -7,7 +7,7 @@ interface CareerRoadmapProps {
   employeeId?: string;
 }
 
-export const CareerRoadmap: React.FC<CareerRoadmapProps> = ({ employeeId = 'emp1' }) => {
+export const CareerRoadmap: React.FC<CareerRoadmapProps> = ({ employeeId = localStorage.getItem('userId') || '' }) => {
   const [roadmap, setRoadmap] = useState<CareerRoadmapType | null>(null);
   const [loading, setLoading] = useState(true);
 

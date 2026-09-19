@@ -8,7 +8,7 @@ interface SkillGapsProps {
   employeeId?: string;
 }
 
-export const SkillGaps: React.FC<SkillGapsProps> = ({ employeeId = 'emp1' }) => {
+export const SkillGaps: React.FC<SkillGapsProps> = ({ employeeId = localStorage.getItem('userId') || '' }) => {
   const [gaps, setGaps] = useState<SkillGap[]>([]);
   const [loading, setLoading] = useState(true);
 

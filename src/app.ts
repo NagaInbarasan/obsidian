@@ -8,6 +8,7 @@ import roleRoutes from './routes/role.routes';
 import skillRoutes from './routes/skill.routes';
 import learningRoutes from './routes/learning.routes';
 import authRoutes from './routes/auth.routes';
+import hrRoutes from './routes/hr.routes';
 import { errorHandler } from './middlewares/error.middleware';
 
 const app = express();
@@ -56,6 +57,7 @@ app.use('/api/v1/employees', employeeRoutes);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/skills', skillRoutes);
 app.use('/api/v1/learning-resources', learningRoutes);
+app.use('/api/v1/hr', hrRoutes);
 
 // --- Health Check (public) ---
 app.get('/health', (_req, res) => {

@@ -1,15 +1,37 @@
 import { Link, useNavigate } from "react-router-dom"
 import SpotlightCard from "@/components/ui/SpotlightCard"
-import { UserPlus, ArrowRight } from "lucide-react"
+import { UserPlus, ArrowRight, Loader2 } from "lucide-react"
+import { useState } from "react"
+import { registerApi } from "@/api/authApi"
 
 export function SignupPage() {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('userRole', 'EMPLOYEE');
-    // Mock signup, redirect to resume onboarding
-    navigate('/onboarding');
+    setLoading(true);
+    setError('');
+    
+    try {
+      await registerApi({
+        firstName,
+        lastName,
+        email,
+        password,
+        title: 'New Employee',
+        department: 'General'
+      });
+      navigate('/onboarding');
+    } catch (err: any) {
+      setError(err.message || 'Registration failed');
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,12 +44,20 @@ export function SignupPage() {
         <p className="text-slate-500 text-sm">Join the talent discovery platform</p>
       </div>
 
+      {error && (
+        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg mb-6 border border-red-100">
+          {error}
+        </div>
+      )}
+
       <form onSubmit={handleSignup} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700">First Name</label>
             <input
               type="text"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
               placeholder="Jane"
               className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
               required
@@ -37,6 +67,8 @@ export function SignupPage() {
             <label className="text-sm font-medium text-slate-700">Last Name</label>
             <input
               type="text"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
               placeholder="Doe"
               className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
               required
@@ -48,6 +80,8 @@ export function SignupPage() {
           <label className="text-sm font-medium text-slate-700">Email Address</label>
           <input
             type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             placeholder="jane@company.com"
             className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
             required
@@ -58,18 +92,28 @@ export function SignupPage() {
           <label className="text-sm font-medium text-slate-700">Password</label>
           <input
             type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             placeholder="••••••••"
             className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
             required
+            minLength={8}
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg px-4 py-3 flex items-center justify-center gap-2 mt-4 transition-all shadow-md group"
+          disabled={loading}
+          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg px-4 py-3 flex items-center justify-center gap-2 mt-4 transition-all shadow-md group disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          Sign Up
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          {loading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <>
+              Sign Up
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </>
+          )}
         </button>
       </form>
 

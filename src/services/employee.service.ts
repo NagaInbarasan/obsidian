@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma';
 import { AppError } from '../middlewares/error.middleware';
+import { AIService } from './ai.service';
 
 // Fields safe to return in public-facing list and basic lookups
 const EMPLOYEE_PUBLIC_SELECT = {
@@ -14,12 +15,28 @@ const EMPLOYEE_PUBLIC_SELECT = {
 } as const;
 
 export class EmployeeService {
-  static async getEmployees(page: number, limit: number) {
+  static async getEmployees(page: number, limit: number, filters: any = {}) {
     const skip = (page - 1) * limit;
 
+    const where: any = {};
+    if (filters.search) {
+      where.OR = [
+        { firstName: { contains: filters.search, mode: 'insensitive' } },
+        { lastName: { contains: filters.search, mode: 'insensitive' } },
+        { title: { contains: filters.search, mode: 'insensitive' } }
+      ];
+    }
+    if (filters.department) {
+      where.department = filters.department;
+    }
+    if (filters.role) {
+      where.title = filters.role;
+    }
+
     const [total, employees] = await Promise.all([
-      prisma.employee.count(),
+      prisma.employee.count({ where }),
       prisma.employee.findMany({
+        where,
         skip,
         take: limit,
         select: EMPLOYEE_PUBLIC_SELECT,
@@ -72,7 +89,12 @@ export class EmployeeService {
             evidence: true
           }
         },
-        careerGoals: true
+        careerGoals: true,
+        roleMatches: {
+          include: {
+            role: true
+          }
+        }
       }
     });
 
@@ -108,10 +130,6 @@ export class EmployeeService {
       },
       orderBy: { score: 'desc' }
     });
-
-    // Import dynamically to avoid circular dependencies if any, or just standard import.
-    // We already have it defined, so let's require it locally for now.
-    const { AIService } = require('./ai.service');
 
     // Attach AI explanations
     const matchesWithAI = await Promise.all(matches.map(async (match) => {

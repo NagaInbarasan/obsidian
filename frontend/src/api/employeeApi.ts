@@ -48,12 +48,48 @@ export const fetchEmployeeById = async (id: string): Promise<Employee | null> =>
         type: s.status === 'explicit' ? 'explicit' : 'inferred',
         score: s.level * 20,
       })) || [],
-      experience: [],
-      projects: [],
+      experience: e.experiences?.map((exp: any) => ({
+        id: exp.id,
+        role: exp.title,
+        company: exp.company,
+        period: `${new Date(exp.startDate).getFullYear()} - ${exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present'}`,
+        description: exp.description,
+        skills: []
+      })) || [],
+      projects: e.projects?.map((proj: any) => ({
+        id: proj.id,
+        name: proj.name,
+        role: 'Contributor',
+        period: `${new Date(proj.startDate).getFullYear()} - ${proj.endDate ? new Date(proj.endDate).getFullYear() : 'Present'}`,
+        description: proj.description,
+        skills: []
+      })) || [],
       learning: [],
       achievements: [],
-      careerGoals: [],
-      roleMatches: [],
+      careerGoals: e.careerGoals?.map((goal: any) => ({
+        id: goal.id,
+        title: goal.targetRole,
+        description: goal.notes || '',
+        targetDate: goal.targetDate ? new Date(goal.targetDate).toISOString().split('T')[0] : 'TBD',
+        progress: 0,
+        milestones: []
+      })) || [],
+      roleMatches: e.roleMatches?.map((match: any) => {
+        let matchedSkills = [];
+        let missingSkills = [];
+        try {
+          matchedSkills = JSON.parse(match.matchedSkills || '[]');
+          missingSkills = JSON.parse(match.missingSkills || '[]');
+        } catch {}
+        
+        return {
+          roleId: match.roleId,
+          roleName: match.role?.title || 'Unknown Role',
+          matchScore: match.score * 100,
+          matchedSkills,
+          missingSkills
+        };
+      }) || [],
     };
   } catch {
     return null;

@@ -3,12 +3,25 @@ import { EmployeeService } from '../services/employee.service';
 import { sendSuccess } from '../utils/response';
 import { AppError } from '../middlewares/error.middleware';
 
+import { z } from 'zod';
+
+const EmployeeQuerySchema = z.object({
+  page: z.string().optional().transform(val => (val ? parseInt(val) : 1)),
+  limit: z.string().optional().transform(val => (val ? parseInt(val) : 50)),
+  search: z.string().optional(),
+  department: z.string().optional(),
+  role: z.string().optional(),
+});
+
 export class EmployeeController {
   static async getEmployees(req: Request, res: Response, next: NextFunction) {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 50;
-      const result = await EmployeeService.getEmployees(page, limit);
+      const query = EmployeeQuerySchema.parse(req.query);
+      const result = await EmployeeService.getEmployees(query.page, query.limit, {
+        search: query.search,
+        department: query.department,
+        role: query.role
+      });
       sendSuccess(res, result.employees, 'Employees retrieved successfully', 200, result.pagination);
     } catch (err) { next(err); }
   }

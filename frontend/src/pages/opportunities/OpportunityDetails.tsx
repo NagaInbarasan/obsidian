@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { RoleMatchCard } from '../../components/matching/RoleMatchCard';
 import { MapPin, Briefcase, Clock, FileText } from 'lucide-react';
 
-const DEFAULT_EMPLOYEE_ID = 'emp1';
+const DEFAULT_EMPLOYEE_ID = localStorage.getItem('userId') || '';
 
 export const OpportunityDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

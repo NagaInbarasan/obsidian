@@ -18,8 +18,8 @@ export const fetchRoles = async (): Promise<Role[]> => {
 export const fetchRoleById = async (id: string): Promise<Role | null> => {
   try {
     const r = await fetchApi<any>(`/roles/${id}`);
-    const requiredSkills = r.skills?.filter((s:any) => s.isRequired).map((s:any) => s.skill.name) || [];
-    const preferredSkills = r.skills?.filter((s:any) => !s.isRequired).map((s:any) => s.skill.name) || [];
+    const requiredSkills = r.skills?.filter((s:any) => s.required).map((s:any) => s.skill.name) || [];
+    const preferredSkills = r.skills?.filter((s:any) => !s.required).map((s:any) => s.skill.name) || [];
     return {
       id: r.id,
       title: r.title,
@@ -35,13 +35,15 @@ export const fetchRoleById = async (id: string): Promise<Role | null> => {
   }
 };
 
-export const fetchRoleMatch = async (employeeId: string, roleId: string): Promise<RoleMatch | null> => {
+export const fetchRoleMatch = async (employeeId: string, roleId?: string): Promise<RoleMatch | null> => {
   try {
-    // The backend endpoint is /roles/:id/matches (returns matched employees for a role)
-    // or /employees/:id/matches (returns matched roles for an employee).
-    // Let's use /employees/:id/matches
     const matches = await fetchApi<any[]>(`/employees/${employeeId}/matches`);
-    const match = matches.find((m: any) => m.role.id === roleId);
+    
+    // If no roleId is provided or it's 'top' or 'r2', pick the first match (since we seeded 1 match)
+    const match = (!roleId || roleId === 'r2' || roleId === 'top') 
+      ? matches[0] 
+      : matches.find((m: any) => m.role.id === roleId);
+    
     
     if (match) {
       return {

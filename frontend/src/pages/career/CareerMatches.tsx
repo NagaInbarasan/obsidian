@@ -7,13 +7,13 @@ interface CareerMatchesProps {
   employeeId?: string;
 }
 
-export const CareerMatches: React.FC<CareerMatchesProps> = ({ employeeId = 'emp1' }) => {
+export const CareerMatches: React.FC<CareerMatchesProps> = ({ employeeId = localStorage.getItem('userId') || '' }) => {
   const [matchData, setMatchData] = useState<RoleMatch | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // For prototype, we just fetch a single mock match for role 'r2'
-    fetchRoleMatch(employeeId, 'r2').then(data => {
+    // Fetch the best match available for this employee
+    fetchRoleMatch(employeeId, 'top').then(data => {
       setMatchData(data);
       setLoading(false);
     });
