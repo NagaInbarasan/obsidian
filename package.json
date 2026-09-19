@@ -21,6 +21,9 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
