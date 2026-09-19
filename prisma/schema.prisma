@@ -1,0 +1,181 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+model Employee {
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  firstName           String
+  lastName            String
+  title               String?
+  department          String?
+  bio                 String?
+  passwordHash        String?
+  systemRole          String               @default("EMPLOYEE") // EMPLOYEE, HR, ADMIN
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  experiences         EmployeeExperience[]
+  projects            Project[]
+  skills              EmployeeSkill[]
+  careerGoals         EmployeeCareerGoal[]
+  roleMatches         RoleMatch[]
+}
+
+model EmployeeExperience {
+  id          String    @id @default(uuid())
+  employeeId  String
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  company     String
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([employeeId])
+}
+
+model Project {
+  id          String    @id @default(uuid())
+  employeeId  String
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  embedding   Unsupported("vector(1536)")?
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([employeeId])
+}
+
+model SkillCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  skills      Skill[]
+}
+
+model Skill {
+  id             String          @id @default(uuid())
+  name           String          @unique
+  normalizedName String          @unique
+  categoryId     String?
+  category       SkillCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  employeeSkills EmployeeSkill[]
+  roleSkills     RoleSkill[]
+}
+
+model EmployeeSkill {
+  id          String   @id @default(uuid())
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  skillId     String
+  skill       Skill    @relation(fields: [skillId], references: [id], onDelete: Restrict)
+  level       Int      // 1-5
+  confidence  Float    // 0-1
+  status      String   // 'explicit', 'evidence-backed-inferred', 'potential', 'self-declared'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  evidence    SkillEvidence[]
+
+  @@unique([employeeId, skillId])
+}
+
+model SkillEvidence {
+  id              String        @id @default(uuid())
+  employeeSkillId String
+  employeeSkill   EmployeeSkill @relation(fields: [employeeSkillId], references: [id], onDelete: Cascade)
+  type            String        // 'project', 'experience', 'learning', 'achievement'
+  sourceId        String?
+  text            String
+  createdAt       DateTime      @default(now())
+
+  @@index([employeeSkillId])
+}
+
+model Role {
+  id          String      @id @default(uuid())
+  title       String
+  department  String
+  description String
+  embedding   Unsupported("vector(1536)")?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  skills      RoleSkill[]
+  matches     RoleMatch[]
+}
+
+model RoleSkill {
+  id        String  @id @default(uuid())
+  roleId    String
+  role      Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  skillId   String
+  skill     Skill   @relation(fields: [skillId], references: [id], onDelete: Restrict)
+  weight    Float   // 0-1
+  required  Boolean @default(true)
+
+  @@unique([roleId, skillId])
+}
+
+model LearningResource {
+  id          String   @id @default(uuid())
+  title       String
+  provider    String
+  url         String
+  type        String   // 'course', 'article', 'book'
+  embedding   Unsupported("vector(1536)")?
+  createdAt   DateTime @default(now())
+}
+
+model EmployeeCareerGoal {
+  id          String   @id @default(uuid())
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  targetRole  String
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RoleMatch {
+  id             String   @id @default(uuid())
+  employeeId     String
+  employee       Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  roleId         String
+  role           Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  score          Float
+  scoringVersion String
+  matchedSkills  String   // JSON string of matched skills
+  missingSkills  String   // JSON string of missing skills
+  createdAt      DateTime @default(now())
+
+  @@unique([employeeId, roleId])
+}
+
+model EmbeddingDocument {
+  id          String   @id @default(uuid())
+  entityType  String   // 'role', 'project', 'learning_resource', etc.
+  entityId    String
+  content     String
+  embedding   Unsupported("vector(1536)")?
+  createdAt   DateTime @default(now())
+}
