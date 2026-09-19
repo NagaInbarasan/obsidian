@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Filter, ShieldCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -108,8 +109,10 @@ export function TalentDiscovery({ initialMatches, onFilter }: TalentDiscoveryPro
                 initialMatches.map((match) => (
                   <tr key={match.employeeId} className="border-b last:border-0 hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-900">
-                      {match.employeeName}
-                      <div className="text-xs text-slate-500 font-normal">{match.department}</div>
+                      <Link to={`/employees/${match.employeeId}`} className="text-blue-600 hover:text-blue-800 hover:underline transition-colors font-semibold">
+                        {match.employeeName}
+                      </Link>
+                      <div className="text-xs text-slate-500 font-normal mt-0.5">{match.department}</div>
                     </td>
                     <td className="px-6 py-4">{match.currentRole}</td>
                     <td className="px-6 py-4">

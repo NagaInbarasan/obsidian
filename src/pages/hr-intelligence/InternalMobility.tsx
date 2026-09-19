@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { ArrowRight, UserPlus, Target } from 'lucide-react';
@@ -74,8 +75,10 @@ export function InternalMobility({ seekers, opportunities }: InternalMobilityPro
               seekers.map(seeker => (
                 <div key={seeker.employeeId} className="flex items-center justify-between p-3 border-b last:border-0 hover:bg-slate-50 transition-colors">
                   <div className="flex flex-col">
-                    <span className="font-medium text-sm text-slate-900">{seeker.employeeName}</span>
-                    <span className="text-xs text-slate-500">{seeker.currentRole}</span>
+                    <Link to={`/employees/${seeker.employeeId}`} className="font-semibold text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors">
+                      {seeker.employeeName}
+                    </Link>
+                    <span className="text-xs text-slate-500 mt-0.5">{seeker.currentRole}</span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-slate-300 mx-2" />
                   <div className="flex flex-col text-right">
