@@ -95,12 +95,36 @@ export class EmployeeService {
             description: true,
             createdAt: true,
             updatedAt: true,
-            // embedding intentionally excluded
+          }
+        },
+        employee: {
+          select: {
+            firstName: true,
+            lastName: true,
+            title: true,
+            department: true,
           }
         }
       },
       orderBy: { score: 'desc' }
     });
-    return matches;
+
+    // Import dynamically to avoid circular dependencies if any, or just standard import.
+    // We already have it defined, so let's require it locally for now.
+    const { AIService } = require('./ai.service');
+
+    // Attach AI explanations
+    const matchesWithAI = await Promise.all(matches.map(async (match) => {
+      const explanation = await AIService.generateMatchExplanation(match.employee, match.role);
+      
+      // We don't want to send the entire employee object back in each match
+      const { employee, ...matchData } = match;
+      return {
+        ...matchData,
+        explanation
+      };
+    }));
+
+    return matchesWithAI;
   }
 }

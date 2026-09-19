@@ -9,7 +9,6 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
-  extensions = [vector]
 }
 
 model Employee {
@@ -53,7 +52,7 @@ model Project {
   employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   name        String
   description String?
-  embedding   Unsupported("vector(1536)")?
+  embedding   String?
   startDate   DateTime
   endDate     DateTime?
   createdAt   DateTime  @default(now())
@@ -116,7 +115,7 @@ model Role {
   title       String
   department  String
   description String
-  embedding   Unsupported("vector(1536)")?
+  embedding   String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
@@ -142,7 +141,7 @@ model LearningResource {
   provider    String
   url         String
   type        String   // 'course', 'article', 'book'
-  embedding   Unsupported("vector(1536)")?
+  embedding   String?
   createdAt   DateTime @default(now())
 }
 
@@ -176,6 +175,6 @@ model EmbeddingDocument {
   entityType  String   // 'role', 'project', 'learning_resource', etc.
   entityId    String
   content     String
-  embedding   Unsupported("vector(1536)")?
+  embedding   String?
   createdAt   DateTime @default(now())
 }

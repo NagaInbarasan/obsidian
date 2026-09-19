@@ -15,7 +15,10 @@
     "coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "postinstall": "prisma skills sync || exit 0"
+    "postinstall": "prisma skills sync || exit 0",
+    "dev:backend": "ts-node src/server.ts",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
   "keywords": [],
   "author": "",
@@ -32,6 +35,7 @@
     "@types/node": "^26.6.2",
     "@types/supertest": "^7.2.1",
     "@vitest/coverage-v8": "^5.0.1",
+    "concurrently": "^10.0.5",
     "prisma": "^5.22.0",
     "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
@@ -39,6 +43,7 @@
     "vitest": "^5.0.1"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.22.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",

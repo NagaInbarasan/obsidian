@@ -1,0 +1,223 @@
+{
+  "departments": [
+    "Engineering",
+    "Data Science",
+    "Product Management",
+    "Human Resources",
+    "Design",
+    "Marketing"
+  ],
+  "employees": [
+    {
+      "id": "EMP-001",
+      "name": "Vikashini",
+      "email": "vikashini@talentai.com",
+      "department": "Data Science",
+      "currentRole": "Senior AI Engineer",
+      "location": "Remote",
+      "joinDate": "2023-01-15",
+      "skills": [
+        { "name": "Python", "category": "Programming", "proficiency": 5, "yearsExperience": 6 },
+        { "name": "Machine Learning", "category": "AI/ML", "proficiency": 5, "yearsExperience": 5 },
+        { "name": "TensorFlow", "category": "AI/ML", "proficiency": 4, "yearsExperience": 4 },
+        { "name": "SQL", "category": "Database", "proficiency": 4, "yearsExperience": 5 },
+        { "name": "React", "category": "Frontend", "proficiency": 2, "yearsExperience": 1 }
+      ],
+      "experience": [
+        {
+          "title": "Senior AI Engineer",
+          "company": "TalentAI",
+          "startDate": "2023-01-15",
+          "endDate": "Present",
+          "description": "Leading the development of the internal talent matching engine."
+        },
+        {
+          "title": "Data Scientist",
+          "company": "TechCorp",
+          "startDate": "2020-03-01",
+          "endDate": "2023-01-10",
+          "description": "Developed predictive models for customer churn."
+        }
+      ],
+      "projects": [
+        {
+          "name": "Skill-Matching Algorithm V2",
+          "role": "Tech Lead",
+          "status": "Completed",
+          "technologies": ["Python", "TensorFlow", "PostgreSQL"]
+        }
+      ],
+      "certifications": [
+        { "name": "AWS Certified Machine Learning", "issueDate": "2022-11-05", "issuer": "AWS" }
+      ],
+      "careerGoals": {
+        "shortTerm": "Lead a cross-functional AI project",
+        "longTerm": "Principal AI Architect",
+        "targetRoles": ["Principal AI Engineer", "Director of AI"]
+      }
+    },
+    {
+      "id": "EMP-002",
+      "name": "Sarah",
+      "email": "sarah@talentai.com",
+      "department": "Human Resources",
+      "currentRole": "HR Business Partner",
+      "location": "New York, NY",
+      "joinDate": "2021-06-20",
+      "skills": [
+        { "name": "Talent Acquisition", "category": "HR", "proficiency": 5, "yearsExperience": 8 },
+        { "name": "Employee Relations", "category": "HR", "proficiency": 5, "yearsExperience": 7 },
+        { "name": "Workday", "category": "Software", "proficiency": 4, "yearsExperience": 5 },
+        { "name": "Data Analysis", "category": "Analytics", "proficiency": 3, "yearsExperience": 2 }
+      ],
+      "experience": [
+        {
+          "title": "HR Business Partner",
+          "company": "TalentAI",
+          "startDate": "2021-06-20",
+          "endDate": "Present",
+          "description": "Partnering with Engineering and Product teams for talent strategy."
+        }
+      ],
+      "projects": [
+        {
+          "name": "Internal Mobility Program Launch",
+          "role": "Project Manager",
+          "status": "Completed",
+          "technologies": ["Workday", "Excel"]
+        }
+      ],
+      "certifications": [
+        { "name": "SHRM-CP", "issueDate": "2019-05-10", "issuer": "SHRM" }
+      ],
+      "careerGoals": {
+        "shortTerm": "Implement AI tools in HR",
+        "longTerm": "VP of People Operations",
+        "targetRoles": ["Director of HR", "Head of Talent"]
+      }
+    },
+    {
+      "id": "EMP-003",
+      "name": "Alex Chen",
+      "email": "alex.chen@talentai.com",
+      "department": "Engineering",
+      "currentRole": "Frontend Developer",
+      "location": "San Francisco, CA",
+      "joinDate": "2024-02-10",
+      "skills": [
+        { "name": "React", "category": "Frontend", "proficiency": 4, "yearsExperience": 3 },
+        { "name": "TypeScript", "category": "Programming", "proficiency": 4, "yearsExperience": 3 },
+        { "name": "Tailwind CSS", "category": "Design", "proficiency": 5, "yearsExperience": 4 },
+        { "name": "Node.js", "category": "Backend", "proficiency": 2, "yearsExperience": 1 }
+      ],
+      "experience": [
+        {
+          "title": "Frontend Developer",
+          "company": "TalentAI",
+          "startDate": "2024-02-10",
+          "endDate": "Present",
+          "description": "Building the employee dashboard interface."
+        }
+      ],
+      "projects": [
+        {
+          "name": "Dashboard UI Overhaul",
+          "role": "Frontend Engineer",
+          "status": "In Progress",
+          "technologies": ["React", "Tailwind CSS"]
+        }
+      ],
+      "certifications": [
+        { "name": "Meta Front-End Developer", "issueDate": "2023-08-15", "issuer": "Coursera" }
+      ],
+      "careerGoals": {
+        "shortTerm": "Improve backend knowledge (Node.js)",
+        "longTerm": "Full Stack Architect",
+        "targetRoles": ["Full Stack Developer", "Senior Frontend Engineer"]
+      }
+    },
+    {
+      "id": "EMP-004",
+      "name": "David Miller",
+      "email": "david.miller@talentai.com",
+      "department": "Engineering",
+      "currentRole": "Backend Engineer",
+      "location": "Remote",
+      "joinDate": "2022-09-01",
+      "skills": [
+        { "name": "Node.js", "category": "Backend", "proficiency": 5, "yearsExperience": 5 },
+        { "name": "PostgreSQL", "category": "Database", "proficiency": 4, "yearsExperience": 4 },
+        { "name": "Docker", "category": "DevOps", "proficiency": 3, "yearsExperience": 2 },
+        { "name": "AWS", "category": "Cloud", "proficiency": 3, "yearsExperience": 2 }
+      ],
+      "experience": [
+        {
+          "title": "Backend Engineer",
+          "company": "TalentAI",
+          "startDate": "2022-09-01",
+          "endDate": "Present",
+          "description": "Designing and maintaining scalable APIs."
+        }
+      ],
+      "projects": [
+        {
+          "name": "API Gateway Migration",
+          "role": "Lead Engineer",
+          "status": "Completed",
+          "technologies": ["Node.js", "AWS API Gateway"]
+        }
+      ],
+      "certifications": [
+        { "name": "AWS Certified Developer", "issueDate": "2023-01-20", "issuer": "AWS" }
+      ],
+      "careerGoals": {
+        "shortTerm": "Master Kubernetes",
+        "longTerm": "Cloud Infrastructure Lead",
+        "targetRoles": ["Senior Backend Engineer", "DevOps Engineer"]
+      }
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "OPP-101",
+      "title": "Principal AI Architect",
+      "department": "Data Science",
+      "type": "Full-Time",
+      "location": "Remote",
+      "description": "Lead the architectural vision for our next-generation talent matching models.",
+      "requiredSkills": [
+        { "name": "Machine Learning", "minimumProficiency": 5 },
+        { "name": "Python", "minimumProficiency": 5 },
+        { "name": "System Design", "minimumProficiency": 4 },
+        { "name": "Team Leadership", "minimumProficiency": 3 }
+      ]
+    },
+    {
+      "id": "OPP-102",
+      "title": "Full Stack Engineer",
+      "department": "Engineering",
+      "type": "Internal Transfer",
+      "location": "San Francisco, CA",
+      "description": "Bridge the gap between our React frontends and Node.js backends.",
+      "requiredSkills": [
+        { "name": "React", "minimumProficiency": 4 },
+        { "name": "Node.js", "minimumProficiency": 3 },
+        { "name": "TypeScript", "minimumProficiency": 4 },
+        { "name": "PostgreSQL", "minimumProficiency": 2 }
+      ]
+    },
+    {
+      "id": "OPP-103",
+      "title": "Director of Talent Acquisition",
+      "department": "Human Resources",
+      "type": "Promotion",
+      "location": "New York, NY",
+      "description": "Head up global hiring strategies and implement AI-driven sourcing.",
+      "requiredSkills": [
+        { "name": "Talent Acquisition", "minimumProficiency": 5 },
+        { "name": "Strategic Planning", "minimumProficiency": 4 },
+        { "name": "Data Analysis", "minimumProficiency": 3 }
+      ]
+    }
+  ]
+}

@@ -6,7 +6,8 @@ import { AppError } from '../middlewares/error.middleware';
 export class EmployeeController {
   static async getEmployees(req: Request, res: Response, next: NextFunction) {
     try {
-      const { page, limit } = req.query as any;
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 50;
       const result = await EmployeeService.getEmployees(page, limit);
       sendSuccess(res, result.employees, 'Employees retrieved successfully', 200, result.pagination);
     } catch (err) { next(err); }
