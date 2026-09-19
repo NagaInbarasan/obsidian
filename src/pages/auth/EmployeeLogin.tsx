@@ -7,6 +7,7 @@ export function EmployeeLogin() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    localStorage.setItem('userRole', 'EMPLOYEE');
     navigate('/dashboard');
   };
 

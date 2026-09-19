@@ -7,6 +7,7 @@ export function SignupPage() {
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+    localStorage.setItem('userRole', 'EMPLOYEE');
     // Mock signup, redirect to resume onboarding
     navigate('/onboarding');
   };

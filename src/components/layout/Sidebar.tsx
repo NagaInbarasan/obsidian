@@ -5,18 +5,26 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-const navItems = [
-  { name: "Dashboard",     path: "/dashboard",     icon: LayoutDashboard },
-  { name: "My Profile",    path: "/employees",     icon: UserCircle },
-  { name: "Upload Resume", path: "/onboarding",    icon: UploadCloud },
-  { name: "AI Skills",     path: "/hr",            icon: Sparkles },
-  { name: "Opportunities", path: "/opportunities", icon: Briefcase },
-  { name: "Skill Gaps",    path: "/career/gaps",   icon: TrendingDown },
-  { name: "Career Roadmap",path: "/career/roadmap",icon: Map },
-  { name: "AI Assistant",  path: "/assistant",     icon: Bot },
-]
-
 export function Sidebar() {
+  const userRole = localStorage.getItem('userRole') || 'EMPLOYEE';
+
+  const employeeItems = [
+    { name: "Dashboard",     path: "/dashboard",     icon: LayoutDashboard },
+    { name: "My Profile",    path: "/employees",     icon: UserCircle },
+    { name: "Upload Resume", path: "/onboarding",    icon: UploadCloud },
+    { name: "Opportunities", path: "/opportunities", icon: Briefcase },
+    { name: "Skill Gaps",    path: "/career/gaps",   icon: TrendingDown },
+    { name: "Career Roadmap",path: "/career/roadmap",icon: Map },
+    { name: "AI Assistant",  path: "/assistant",     icon: Bot },
+  ];
+
+  const hrItems = [
+    { name: "HR Dashboard",  path: "/hr",            icon: LayoutDashboard },
+    { name: "Talent Directory", path: "/employees",  icon: UserCircle },
+  ];
+
+  const currentNavItems = userRole === 'HR' ? hrItems : employeeItems;
+
   return (
     <aside
       className="relative flex flex-col h-full overflow-hidden"
@@ -34,13 +42,13 @@ export function Sidebar() {
         </div>
         <div>
           <div className="text-white font-extrabold text-base leading-none tracking-tight">TalentAI</div>
-          <div className="text-white/50 text-[9px] leading-tight tracking-wide mt-0.5">Discover · Grow · Belong</div>
+          <div className="text-white/50 text-[9px] leading-tight tracking-wide mt-0.5">{userRole === 'HR' ? 'Intelligence Hub' : 'Discover · Grow · Belong'}</div>
         </div>
       </div>
 
       {/* Nav */}
       <nav className="flex-1 px-3 pt-2 space-y-0.5">
-        {navItems.map((item) => (
+        {currentNavItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}

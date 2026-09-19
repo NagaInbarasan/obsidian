@@ -1,6 +1,15 @@
 import { Search, Bell, ChevronDown } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export function Topbar() {
+  const navigate = useNavigate();
+  const userRole = localStorage.getItem('userRole') || 'EMPLOYEE';
+
+  const handleSignOut = () => {
+    localStorage.removeItem('userRole');
+    navigate('/login');
+  };
+
   return (
     <header className="flex h-16 w-full shrink-0 items-center justify-between bg-white border-b border-slate-100 px-6"
       style={{ boxShadow: "0 1px 4px rgba(30,64,175,0.06)" }}>
@@ -41,23 +50,31 @@ export function Topbar() {
         <div className="w-px h-6 bg-slate-200 mx-1" />
 
         {/* User profile */}
-        <div className="flex items-center gap-2.5 px-2 py-1 rounded-xl hover:bg-blue-50 cursor-pointer transition-colors">
-          <div className="relative shrink-0">
-            <img
-              src="https://api.dicebear.com/7.x/notionists/svg?seed=Vikashini"
-              alt="Vikashini"
-              className="w-8 h-8 rounded-full object-cover"
-              style={{ border: "2px solid #bfdbfe" }}
-            />
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white" />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2.5 px-2 py-1 rounded-xl hover:bg-blue-50 cursor-pointer transition-colors">
+            <div className="relative shrink-0">
+              <img
+                src={userRole === 'HR' ? "https://api.dicebear.com/7.x/notionists/svg?seed=SarahHR" : "https://api.dicebear.com/7.x/notionists/svg?seed=Vikashini"}
+                alt="Profile"
+                className="w-8 h-8 rounded-full object-cover"
+                style={{ border: "2px solid #bfdbfe" }}
+              />
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white" />
+            </div>
+            <div className="hidden md:block">
+              <p className="text-sm font-semibold text-slate-800 leading-none">{userRole === 'HR' ? 'Sarah' : 'Vikashini'}</p>
+              <p className="text-[11px] font-medium mt-0.5 leading-none" style={{ color: userRole === 'HR' ? "#9333ea" : "#3b82f6" }}>
+                {userRole === 'HR' ? 'HR Business Partner' : 'AI & Data Science'}
+              </p>
+            </div>
           </div>
-          <div className="hidden md:block">
-            <p className="text-sm font-semibold text-slate-800 leading-none">Vikashini</p>
-            <p className="text-[11px] font-medium mt-0.5 leading-none" style={{ color: "#3b82f6" }}>
-              AI &amp; Data Science
-            </p>
-          </div>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 ml-0.5" />
+          
+          <button 
+            onClick={handleSignOut}
+            className="text-xs font-semibold text-slate-500 hover:text-red-500 transition-colors"
+          >
+            Sign Out
+          </button>
         </div>
       </div>
     </header>
